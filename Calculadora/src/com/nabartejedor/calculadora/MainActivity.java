@@ -11,78 +11,52 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.os.Build;
 
 
 
 public class MainActivity extends Activity {
-
+	
+	Calculadora c = null;
 	private TextView textview;
-	
-	public void segue_numero(View v){
-		Button boton = (Button) v;
-		int numero = Integer.parseInt((String) boton.getText());
-	}
-	
-	public void segue_operacion(View v){
-		Button boton = (Button) v;
-		String operacion = (String) boton.getText();
-		
-	}
-	
-	
 	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
+		//outState.getstring("RESULTADO",resultado);
+		//         getdouble....
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-//		if (savedInstanceState == null) {
-//			getFragmentManager().beginTransaction()
-//					.add(R.id.container, new PlaceholderFragment()).commit();
-//		}
+		c = new Calculadora();
+		textview = (TextView) findViewById(R.id.textView1);
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
+	
+	public void segue_numero(View v){
+		Button boton = (Button) v;
+		String numero =  boton.getText().toString();
+		
+		if(textview.getText().toString().equals("0")) {
+			textview.setText(numero);
+		} else {
+			if(!c.ObtenerOperando().equals("")){
+			  textview.append(numero);
+			}
 		}
-		return super.onOptionsItemSelected(item);
+		
+		c.introducirDigito(textview.getText().toString());
 	}
-
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
 	
-	
-	
-//	public static class PlaceholderFragment extends Fragment {
-//
-//		public PlaceholderFragment() {
-//		}
-//
-//		@Override
-//		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//				Bundle savedInstanceState) {
-//			View rootView = inflater.inflate(R.layout.fragment_main, container,
-//					false);
-//			return rootView;
-//		}
-//	}
+	public void segue_operacion(View v){
+		Button boton = (Button) v;
+		String operacion = boton.getText().toString();
+		c.introducirOperando(operacion);
+		textview.setText(String.valueOf(c.ObtenerResultado()));
+	    
+	}
 
 }
