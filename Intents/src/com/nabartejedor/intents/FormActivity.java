@@ -16,7 +16,7 @@ import android.os.Build;
 
 public class FormActivity extends Activity {
 //	private String cadena_recibida = "gfd";
-	private String recibido;
+	// private String recibido;
 	
 	
 	@Override
@@ -24,25 +24,27 @@ public class FormActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_form);
 		TextView textview = (TextView) findViewById(R.id.textView1);
-		if (savedInstanceState == null) {
-			getFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
-		}
+//		if (savedInstanceState == null) {
+//			getFragmentManager().beginTransaction()
+//					.add(R.id.container, new PlaceholderFragment()).commit();
+//		}
 		
 		 
-		Intent intent	=	getIntent();	
-		String	action	=	intent.getAction();	
+		Intent intent	=	getIntent();	 
+		
+		if(intent != null){
+		   String	action	=	intent.getAction();	
 //		
 //		
-		intent.getStringExtra(MainActivity.cadena);
+		   String recibido = intent.getStringExtra("recibido");
 //		
-		String	data	=	intent.getDataString();		
+		   String	data	=	intent.getDataString();		
 		// Log.d("TAG","String enviado: " + message);
 		//intent.getStringExtra(cadena_recibida);
 //
 //	   
-	    textview.setText(data); 
-	    
+	       textview.setText(recibido); 
+		}
 	}
 
 	@Override

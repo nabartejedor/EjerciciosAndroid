@@ -12,9 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import	android.content.BroadcastReceiver;	
+import	android.content.Context;	
+
 
 public class MainActivity extends Activity {
-    public static String cadena = "";
+    public  String key = "cadena";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -23,6 +26,7 @@ public class MainActivity extends Activity {
 		
 //		Intent	intent	=	new	Intent(MainActivity.this,	SecondActivity.class);	
 //		startActivity(intent);
+		
         Button	formbutton	=	(Button)	findViewById(R.id.buttonform);	
         final EditText edittext = (EditText) findViewById(R.id.editText2);
         
@@ -31,17 +35,19 @@ public class MainActivity extends Activity {
 		public	void	onClick(View	view)	{	
         	
 		    Intent	result	=  new	Intent(MainActivity.this,	FormActivity.class);	
-		    result.putExtra(cadena,edittext.getText().toString());
+		    result.putExtra("cadena",key);
 		    startActivity(result);
-		   
+		   //startActivityForResult(FORM_ACTION,result);
 		    
-		    Log.d("TAG","valor cadena: " + cadena);
+		    Log.d("TAG","valor cadena: " + key);
 		   // setResult(RESULT_OK,result);	
 		   // finish();	
 		
 	      }
       });	
 	}
+	
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
