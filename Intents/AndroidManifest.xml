@@ -41,6 +41,15 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" >
                     
                 </action>
+                <action android:name="android.intent.action.AIRPLANE_MODE" >
+                    
+                </action>
+                <action android:name="android.intent.action.SERVICE_STATE" >
+                    
+                </action>
+                <action android:name="android.intent.action.CONNECTIVITY_CHANGE" >
+                    
+                </action>
             </intent-filter>
         </receiver>
         
