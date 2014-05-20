@@ -1,0 +1,34 @@
+<?xml	version="1.0"	encoding="utf-8"?>	
+<PreferenceScreen	
+		xmlns:android="http://schemas.android.com/apk/res/android">	
+		<PreferenceCategory	
+				android:title="Preferencias">	
+				
+        <SwitchPreference
+            android:key="ACT_AUTO"      
+            android:title="@string/autorefresh_on_off" 
+            android:summary="realiza una actualización automática"
+            android:defaultValue="on"/>
+		    
+			<ListPreference	
+						android:key="PREF_LIST"	
+						android:title="@string/autorefresh_cada_cuanto"	
+						android:summary="tiempo refresco"	
+						android:entries="@array/autorefresh"
+                        android:entryValues="@array/autorefresh_options"
+                        android:defaultValue="1"
+				/> 
+				<ListPreference	
+						android:key="PREF_LIST_"	
+						android:title="@string/magnitud"	
+						android:summary="Magnitud del terremoto"	
+						android:entries="@array/magnitud"
+                        android:entryValues="@array/magnitud_options"
+                        android:defaultValue="3"
+				/> 
+        
+		
+		</PreferenceCategory>	
+</PreferenceScreen>
+
+

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">earthquake</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_preference">PreferenceActivity</string>
+    <string name="title_activity_my_fragment_preference">MyFragmentPreferenceActivity</string>
+    <string name="title_activity_my_preference_fragment">MyPreferenceFragment</string>
+    <string name="autorefresh_on_off">Refresco</string>
+    <string name="autorefresh_cada_cuanto">Refresco - Frecuencia</string>
+    <string name="magnitud">Magnitud</string>
+</resources>
