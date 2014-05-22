@@ -20,6 +20,7 @@ public class SQLiteOpenHelperMain extends SQLiteOpenHelper{
 	public	static	final	int	DATABASE_VERSION	=	1;	
 
 	public static final String ID = "_id";
+	public static final String ID_X = "_idx";
 	public static final String PLACE = "_place";
 	public static final String TIME = "_time";
 	public static final String DETAIL = "_detail";
@@ -34,8 +35,9 @@ public class SQLiteOpenHelperMain extends SQLiteOpenHelper{
 	
 	
 //	SQL	Statement	to	create	a	new	database.	
-	private	static	final	String	DATABASE_CREATE	=	"CREATE TABLE IF NOT EXISTS "  + DATABASE_TABLE +
-			"(_id INT,"+
+	private	static	final	String	DATABASE_CREATE	= "CREATE TABLE IF NOT EXISTS "  + DATABASE_TABLE +
+			"(_id INTEGER PRIMARY KEY AUTOINCREMENT,"+
+			"_idx TEXT  UNIQUE," +
 			"_place TEXT," +
 			"_time INT," +
 			"_detail TEXT," +

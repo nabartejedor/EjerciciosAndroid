@@ -1,9 +1,19 @@
 package com.nabartejedor.earthquake;
 
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.json.JSONException;
+import org.xml.sax.SAXException;
+
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,26 +30,81 @@ public class MainActivity extends Activity {
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.activity_main);   
+        
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
+        	getFragmentManager().beginTransaction()
+            .add(R.id.container, new ListadoTerremotos(),"list")
+            .commit();
         }
         
+        
         //SQLiteOpenHelperMain
-        
-//        SQLiteOpenHelperMain bd = new SQLiteOpenHelperMain(this, SQLiteOpenHelperMain.DATABASE_NAME,null, SQLiteOpenHelperMain.DATABASE_VERSION);
-//        bd.getWritableDatabase();
-        DataBaseOperations basedatos = new DataBaseOperations(this);
+       final DataBaseOperations basedatos = new DataBaseOperations(this);
         basedatos.open();
-        basedatos.addNewHoard(1, "onddarbi", 43432,"aaaaa", 4, 5432453, 4324, "htttp:/hfjdkfhkd", 6453564, 543543);
         
-        whereArgs = null;
-        whereArgs[1] = "onddarbi";
-        basedatos.deleteEmptyHoards("_place",whereArgs);
-    }
+     // DELETE de la tabla entera
+     //	basedatos.deleteAllEarthquakes();
+        
+     	Thread t = new Thread(new Runnable() {
+			public void run() {
+				// JSON
+		     	try {
+		     		
+		     		ArrayList<Quake> listaTerremotos = new ArrayList<Quake>(); 
+		     		listaTerremotos =  JSONes.ObtenerJson();
+		     		Quake q = new Quake();
+		     		for (int i=0; i < listaTerremotos.size()-1  ; i++){
+		     			q = listaTerremotos.get(i);
+		     			basedatos.addNewEarthQuake(q);
+		     		}
+		     		// basedatos.selectEarthQuakes(0);
+		     		
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		t.start();
+     	
+		
+		
+        
+//      DELETE        
+//        String  whereArgs[] = null;
+//        String where = "_id = " + 1;
+//        basedatos.deleteEmptyHoards(where,whereArgs);        
+        
+        
+        
+//        INSERT
+        
+//        Quake q = new Quake();
+//        q.setId(1);
+//        q.setDetail("onddarbi center");
+//        q.setLat(4342.32);
+//        q.setLng(43242.55);
+//        q.setMag(7);
+//        q.setUrl("http://fdfvrfv.es");
+//        basedatos.addNewEarthQuake(q);
+        
+//        DELETE        
+       // whereArgs[] = null;
+  //      where = "_id = " + 5;
+  //      basedatos.deleteEmptyHoards(where,whereArgs);
+        
+        
+//        UPDATE        
+ //       basedatos.updateHoardValue(1, 2);
+        
+//       SELECT 
+ //       basedatos.selectEarthQuakes(0);
+
+	}
 
 
     @Override
@@ -81,3 +146,6 @@ public class MainActivity extends Activity {
     }
 
 }
+
+
+
