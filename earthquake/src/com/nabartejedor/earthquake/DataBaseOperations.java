@@ -40,6 +40,7 @@ public class DataBaseOperations {
 		newValues.put(SQLiteOpenHelperMain.ID_X, q.getIdx());
 		newValues.put(SQLiteOpenHelperMain.PLACE, q.getPlace());
 		newValues.put(SQLiteOpenHelperMain.TIME, q.getTime());
+		newValues.put(SQLiteOpenHelperMain.DETAIL, q.getDetail());
 		newValues.put(SQLiteOpenHelperMain.MAGNITUD, q.getMag());
 		newValues.put(SQLiteOpenHelperMain.LATITUD, q.getLat());
 		newValues.put(SQLiteOpenHelperMain.LONGITUD, q.getLng());
@@ -106,6 +107,7 @@ public class DataBaseOperations {
 		
 		int idIdx = cursor.getColumnIndex(SQLiteOpenHelperMain.ID);
 		int placeIdx = cursor.getColumnIndex(SQLiteOpenHelperMain.PLACE);
+		int detailIdx = cursor.getColumnIndex(SQLiteOpenHelperMain.DETAIL);
 		int latIdx = cursor.getColumnIndex(SQLiteOpenHelperMain.LATITUD);
 		int magIdx = cursor.getColumnIndex(SQLiteOpenHelperMain.MAGNITUD);
 		
@@ -120,6 +122,7 @@ public class DataBaseOperations {
 			Log.d("tag","entra en set LAT " + q.getLat());
 			Log.d("tag","entra en place PLACE " + q.getPlace());
 			Log.d("tag","entra en set MAGNITUD " + q.getMag());
+			Log.d("tag","entra en set DETAIL " + q.getDetail());
 			// q.setDetail(cursor.getDetail()
 			resultado.add(q);
 		}

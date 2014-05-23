@@ -1,27 +1,19 @@
 package com.nabartejedor.earthquake;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.json.JSONException;
-import org.xml.sax.SAXException;
 
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 
 public class MainActivity extends Activity {
 
@@ -40,38 +32,33 @@ public class MainActivity extends Activity {
         
         
         //SQLiteOpenHelperMain
-       final DataBaseOperations basedatos = new DataBaseOperations(this);
+        final DataBaseOperations basedatos = new DataBaseOperations(this);
         basedatos.open();
         
      // DELETE de la tabla entera
      //	basedatos.deleteAllEarthquakes();
         
-     	Thread t = new Thread(new Runnable() {
-			public void run() {
-				// JSON
-		     	try {
-		     		
-		     		ArrayList<Quake> listaTerremotos = new ArrayList<Quake>(); 
-		     		listaTerremotos =  JSONes.ObtenerJson();
-		     		Quake q = new Quake();
-		     		for (int i=0; i < listaTerremotos.size()-1  ; i++){
-		     			q = listaTerremotos.get(i);
-		     			basedatos.addNewEarthQuake(q);
-		     		}
-		     		// basedatos.selectEarthQuakes(0);
-		     		
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-		t.start();
+        //*********
+        
+//     	Thread t = new Thread(new Runnable() {
+//			public void run() {
+//				// JSON
+//		     	try {
+//		   *****  		
+//		     		
+//		   *****  		
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				} catch (JSONException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//		t.start();
      	
-		
+		//***************
 		
         
 //      DELETE        
