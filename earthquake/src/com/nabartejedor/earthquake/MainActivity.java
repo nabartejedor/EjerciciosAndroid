@@ -1,14 +1,17 @@
 package com.nabartejedor.earthquake;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-import org.json.JSONException;
+ 
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +20,6 @@ import android.view.ViewGroup;
 
 public class MainActivity extends Activity {
 
-    private String whereArgs[];
 
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,70 @@ public class MainActivity extends Activity {
         //SQLiteOpenHelperMain
         final DataBaseOperations basedatos = new DataBaseOperations(this);
         basedatos.open();
+        
+        
+     // Get the Content Resolver.
+        ContentResolver cr = getContentResolver();
+ 
+        // Specify the result column projection. Return the minimum set
+        // of columns required to satisfy your requirements.
+        String[] result_columns = new String[] {
+        //    ,
+            MyContentProvider.PLACE,
+            MyContentProvider.LATITUD,
+            MyContentProvider.MAGNITUD,
+            MyContentProvider.ID
+            };
+        
+        // Append a row ID to the URI to address a specific row.
+        // ESTO ES PARA EL DETALLE
+     //   Uri rowAddress =
+    //    ContentUris.withAppendedId(MyContentProvider.CONTENT_URI,0);
+        
+        
+        // Replace these with valid SQL statements as necessary.
+        String where = null;
+        String whereArgs[] = null;
+        String order = null;
+        // Return the specified rows.
+        Cursor resultCursor = cr.query(MyContentProvider.CONTENT_URI, result_columns,
+                                       where, whereArgs, order);
+        
+        Quake q = new Quake();
+        
+        while(resultCursor.moveToNext()) {
+        	
+        	Log.d("tag","entro en while cursor" + SQLiteOpenHelperMain.ID);
+			
+			int idIdx = resultCursor.getColumnIndex(SQLiteOpenHelperMain.ID);
+			int placeIdx = resultCursor.getColumnIndex(SQLiteOpenHelperMain.PLACE);
+			int latIdx = resultCursor.getColumnIndex(SQLiteOpenHelperMain.LATITUD);
+			int magIdx = resultCursor.getColumnIndex(SQLiteOpenHelperMain.MAGNITUD);
+			
+			String place = resultCursor.getString(placeIdx);
+			String id = resultCursor.getString(idIdx);
+			double latitud = resultCursor.getDouble(latIdx);
+			double magnitud = resultCursor.getDouble(magIdx);
+			
+			q.setIdx(id);
+			q.setPlace(place);
+			q.setLat(latitud);
+        	q.setMag(magnitud);
+        	
+			Log.d("tag","set ID " + q.getIdx());
+			Log.d("tag","set LAT " + q.getLat());
+			Log.d("tag","set PLACE " + q.getPlace());
+			Log.d("tag","set MAGNITUD " + q.getMag());
+
+			Uri uri2 = addNewHoard(id,place,latitud,magnitud);
+		} 
+        
+        
+        
+        resultCursor.close();
+        
+        
+        
         
      // DELETE de la tabla entera
      //	basedatos.deleteAllEarthquakes();
@@ -93,6 +159,22 @@ public class MainActivity extends Activity {
 
 	}
 
+	private Uri addNewHoard(String hoardId, String hoardPlace, double hoardLati, double hoardMag) {
+   
+           ContentValues newValues = new ContentValues();
+    
+           newValues.put(SQLiteOpenHelperMain.ID, hoardId);
+           newValues.put(SQLiteOpenHelperMain.PLACE, hoardPlace);
+           newValues.put(SQLiteOpenHelperMain.LATITUD,hoardLati);
+           newValues.put(SQLiteOpenHelperMain.MAGNITUD,hoardMag);
+           
+           ContentResolver cr = getContentResolver();
+    
+           Uri myRowUri = cr.insert(MyContentProvider.CONTENT_URI, newValues);
+   
+           return myRowUri;
+}
+	
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

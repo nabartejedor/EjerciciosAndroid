@@ -89,7 +89,6 @@ public class DataBaseOperations {
 		
 		String groupBy = null;
 		String having = null;
-		String order = null;
 		String[] result_columns = new String[]
 
 		{ SQLiteOpenHelperMain.ID, SQLiteOpenHelperMain.PLACE,
@@ -107,7 +106,6 @@ public class DataBaseOperations {
 		
 		int idIdx = cursor.getColumnIndex(SQLiteOpenHelperMain.ID);
 		int placeIdx = cursor.getColumnIndex(SQLiteOpenHelperMain.PLACE);
-		int detailIdx = cursor.getColumnIndex(SQLiteOpenHelperMain.DETAIL);
 		int latIdx = cursor.getColumnIndex(SQLiteOpenHelperMain.LATITUD);
 		int magIdx = cursor.getColumnIndex(SQLiteOpenHelperMain.MAGNITUD);
 		
@@ -123,7 +121,7 @@ public class DataBaseOperations {
 			Log.d("tag","entra en place PLACE " + q.getPlace());
 			Log.d("tag","entra en set MAGNITUD " + q.getMag());
 			Log.d("tag","entra en set DETAIL " + q.getDetail());
-			// q.setDetail(cursor.getDetail()
+		
 			resultado.add(q);
 		}
 

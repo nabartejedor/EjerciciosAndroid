@@ -31,6 +31,11 @@
             android:name="com.nabartejedor.earthquake.MyPreferenceFragment"
             android:label="@string/title_activity_my_preference_fragment" >
         </activity>
+        <provider
+           android:name=".MyContentProvider"
+           android:exported="false"
+           android:authorities="com.nabartejedor.provider.terremotosdatabaseprovider" > 
+         </provider>
     </application>
 
 </manifest>
