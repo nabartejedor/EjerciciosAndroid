@@ -19,12 +19,22 @@ public class ListadoTerremotos extends ListFragment implements DownloadFilesTask
 	private ArrayList<Quake> listado;
 	private ArrayAdapter<Quake> adaptador;
 	private SimpleCursorAdapter adapter; 
+	private String[] from = { SQLiteOpenHelperMain.TIME,
+			SQLiteOpenHelperMain.MAGNITUD,
+			SQLiteOpenHelperMain.PLACE,
+			SQLiteOpenHelperMain.ID };
 	
 	DataBaseOperations bd;
+	
+	private int[] to = { R.id.time, R.id.magnitude, R.id.place };
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
+		adapter = new SimpleCursorAdapter(getActivity(), R.layout.simple_list_item_1, null, from, to,0);
+		
+		setListAdapter(adapter);
+		
 		// Create the array list of to do items
 	//	listado = new ArrayList<Quake>();
 
