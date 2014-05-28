@@ -9,153 +9,148 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.net.Uri;
+import android.util.Log;
 
 public class MyContentProvider extends ContentProvider{
-	public static final Uri CONTENT_URI = Uri.parse("content://com.nabartejedor.provider.terremotosdatabaseprovider/elements");
-
-	SQLiteOpenHelper myEarthquakesDatabase;
 	
+	public static Uri	CONTENT_URI	= Uri.parse("content://com.nabartejedor.provider.terremotosdatabaseprovider/elements");
 	
-    static final String ID = "_id";
-    static final String ID_X = "_idx";
-    static final String PLACE = "_place";
-    static final String TIME = "_time";
-    static final String DETAIL = "_detail";
-    static final String MAGNITUD = "_magnitud";
-    static final String LATITUD = "_lat";
-    static final String LONGITUD = "_long";
-    static final String URL = "_url";
-    static final String CREATEAT = "_create_at";
-    static final String UPDATEAT = "_update_at";
-
-	//Create the constants used to differentiate between the different URI
-	//requests.
-	private static final int ALLROWS = 1;
-	private static final int SINGLE_ROW = 2;
-	private static final UriMatcher uriMatcher;
-	//Populate the UriMatcher object, where a URI ending in
-	//'elements' will correspond to a request for all items,
-	//and 'elements/[rowID]' represents a single row.
-	static {
-	   uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-	   uriMatcher.addURI("com.nabartejedor.provider.terremotosdatabaseprovider","elements", ALLROWS);
-	   uriMatcher.addURI("com.nabartejedor.provider.terremotosdatabaseprovider","elements/#", SINGLE_ROW);
-	}   
+    public static int ALLROWS = 1;	
+    public static int SINGLE_ROW = 2;	
+    public static UriMatcher uriMatcher;
+    
+    
+    
+    private SQLiteOpenHelper myOpenHelper;
+    
+    static{
+    uriMatcher = new	UriMatcher(UriMatcher.NO_MATCH);	
+    uriMatcher.addURI("com.nabartejedor.provider.MyContentProvider","elements",ALLROWS);	
+    uriMatcher.addURI("com.nabartejedor.provider.MyContentProvider","elements/#",SINGLE_ROW);
+    }
 	
-	@Override
-	public String getType(Uri uri) {
-		if(uriMatcher.match(uri) == SINGLE_ROW) { 
-	         return "vnd.android.cursor.item/vnd.com.nabartejedor.provider.elemental";
-	    }
-		
-		// if(uriMatcher.match(uri) == ALLROWS) { 
-		else{
-			return "vnd.android.cursor.dir/vnd.com.nabartejedor.provider.elemental";
-		}
-		
-	}
-	
-	
+    
+    
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-
-
 	@Override
-	public Uri insert(Uri uri, ContentValues values) {
-		// Open a read / write database to support the transaction.
-	    SQLiteDatabase db = myEarthquakesDatabase.getWritableDatabase();
-	    // To add empty rows to your database by passing in an empty
-	    // Content Values object you must use the null column hack
-	    // parameter to specify the name of the column that can be
-	    // set to null.
-	    String nullColumnHack = null;
-	    // Insert the values into the table
-	    long id = db.insert(SQLiteOpenHelperMain.DATABASE_TABLE,
-	        nullColumnHack, values);
-	    // Construct and return the URI of the newly inserted row.
-	    if (id > -1) {
-	      // Construct and return the URI of the newly inserted row.
-	      Uri insertedId = ContentUris.withAppendedId(CONTENT_URI, id);
-	      // Notify any observers of the change in the data set.
-	      getContext().getContentResolver().notifyChange(insertedId, null);
-	      return insertedId;
-	    }
-	    else
-	      return null;
+	public String getType(Uri uri) {
+		
+		 if(uriMatcher.match(uri) == ALLROWS)
+		 { 
+             Log.d("TAG","entro en uri matcher all");
+			 return "vnd.android.cursor.dir/vnd.com.nabartejedor.provider.elemental";
+		 }
+		 else{	
+			 Log.d("TAG","entro en uri matcher 1");
+             return "vnd.android.cursor.item/vnd.com.nabartejedor.provider.elemental";
+		 }		
+	    
 	}
+
+
+	
 
 	@Override
 	public boolean onCreate() {
-		// Creo una instancia de la clase myEarthquakes para poder acceder a
-				// ella
-				myEarthquakesDatabase = new SQLiteOpenHelperMain(getContext(),
-				SQLiteOpenHelperMain.DATABASE_NAME, null,
-				SQLiteOpenHelperMain.DATABASE_VERSION);
-				return true;
-
+		Log.d("tag","entro en oncreate del content provider" );
+		 myOpenHelper = new SQLiteOpenHelperMain(getContext(),SQLiteOpenHelperMain.DATABASE_NAME,null,	
+		 SQLiteOpenHelperMain.DATABASE_VERSION);
+		// TODO Auto-generated method stub
+		return true;
 	}
-
 
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection,
-	    String[] selectionArgs, String sortOrder) {
+		  String[] selectionArgs, String sortOrder) {
+		  SQLiteDatabase db;
+		  Log.d("TAG","entro en cursor");
+		  try
+		 {	
+          db =	myOpenHelper.getWritableDatabase();	
+		 }
+           catch
+		  (SQLiteException ex)	
+		  {
+		  db = myOpenHelper.getReadableDatabase();	
+		  }
+		
+		  SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+		// TODO Auto-generated method stub
+            if(uriMatcher.match(uri) == SINGLE_ROW)	
+            {
+              String rowID = uri.getPathSegments().get(1);
+              queryBuilder.appendWhere(SQLiteOpenHelperMain.ID + "=" + rowID);
+            }
+		    queryBuilder.setTables(SQLiteOpenHelperMain.DATABASE_TABLE);
+		    String groupBy = null;
+		    String having = null;
+			Cursor cursor	 = queryBuilder.query(db, projection,selection,
+				  selectionArgs,groupBy ,having,sortOrder);
+		    return cursor;
+	}
 
-	SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+	@Override	
+	 public Uri insert(Uri uri,ContentValues values)
+	{
+      SQLiteDatabase db = myOpenHelper.getWritableDatabase();
+
+      String nullColumnHack = null;
+
+      long id = db.insert(SQLiteOpenHelperMain.DATABASE_TABLE,nullColumnHack,values);
+
+      if(id>-1){
+		 Uri insertedId = ContentUris.withAppendedId(CONTENT_URI,id);
+         getContext().getContentResolver().notifyChange(insertedId,null);
+	   return insertedId;	
+      }	
 	
-	queryBuilder.setTables(SQLiteOpenHelperMain.DATABASE_TABLE);
-	SQLiteDatabase db;
-	try {
-	  db = myEarthquakesDatabase.getWritableDatabase();
-	} catch (SQLiteException ex) {
-	  db = myEarthquakesDatabase.getReadableDatabase();
-	}
-	// If this is a row query, limit the result set to the passed in row.
-	switch (uriMatcher.match(uri)) {
-	  case SINGLE_ROW :
-	    String rowID = uri.getPathSegments().get(1);
-	    queryBuilder.appendWhere(ID + "=" + rowID);
-	  default: break;
-	}
-	String groupBy = null;
-	String having = null;
-	// Execute the query.
-	Cursor cursor = queryBuilder.query(db, projection, selection,
-	selectionArgs, groupBy , having , sortOrder);
-	
-	  return cursor;
-	}
+	 else return null;	
+	 }
 
 	@Override
-	public int update(Uri arg0, ContentValues arg1, String arg2, String[] arg3) {
+	public int update(Uri uri, ContentValues values, String selection,
+			String[] selectionArgs) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-  
+	public class SQLiteOpenHelperMain extends SQLiteOpenHelper{
 
-	
-	//***************   SQLITE OPEN HELPER   ****************************
-	private class SQLiteOpenHelperMain extends SQLiteOpenHelper{
-		
-		public static	final	String	DATABASE_NAME	=	"earthquake.db";	
-		public static	final	String	DATABASE_TABLE	=	"terremotos";	
-		public static	final	int	DATABASE_VERSION	=	1;	
-
-		
 		public SQLiteOpenHelperMain(Context context, String name,
 				CursorFactory factory, int version) {
 			super(context, name, factory, version);
 			// TODO Auto-generated constructor stub
 		}
 
-		
+
+
+		public	static	final	String	DATABASE_NAME	=	"earthquake.db";	
+		public	static	final	String	DATABASE_TABLE	=	"terremotos";	
+		public	static	final	int	DATABASE_VERSION	=	1;	
+
+		public static final String ID = "_id";
+		public static final String ID_X = "_idx";
+		public static final String PLACE = "_place";
+		public static final String TIME = "_time";
+		public static final String DETAIL = "_detail";
+		public static final String MAGNITUD = "_magnitud";
+		public static final String LATITUD = "_lat";
+		public static final String LONGITUD = "_long";
+		public static final String URL = "_url";
+		public static final String CREATEAT = "_create_at";
+		public static final String UPDATEAT = "_update_at";
+
+
+
+
 //		SQL	Statement	to	create	a	new	database.	
 		private	static	final	String	DATABASE_CREATE	= "CREATE TABLE IF NOT EXISTS "  + DATABASE_TABLE +
 				"(_id INTEGER PRIMARY KEY AUTOINCREMENT,"+
@@ -169,14 +164,14 @@ public class MyContentProvider extends ContentProvider{
 				"_url TEXT," +
 				"_create_at INT," +
 				"_update_at INT);";
-		
-		
+
+
 //		Called	when	no	db	exists	in	disk	
 		@Override	
 		public	void	onCreate(SQLiteDatabase	db)	{	
 				db.execSQL(DATABASE_CREATE);	
 		}
-		
+
 
 
 
@@ -192,17 +187,5 @@ public class MyContentProvider extends ContentProvider{
 
 
 	}
-
-
-	//************** FIN OPENHELPER *********************
-
-
-
-
-	
-	
-	
 	
 }
-
-

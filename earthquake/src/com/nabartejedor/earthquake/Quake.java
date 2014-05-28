@@ -16,11 +16,11 @@ public class Quake {
 	private double mag;
 	private double lat;
 	private double lng;
-	
+
 	public Quake() {
-		
+
 	}
-	
+
 	public Quake(long id, String idx, String place, String detail, String url, long time, double mag, double lat,
 			double lng) {
 		super();
@@ -35,7 +35,7 @@ public class Quake {
 		this.lng = lng;
 	}
 
-	
+
 	public String getIdx() {
 		return idx;
 	}
@@ -43,8 +43,8 @@ public class Quake {
 	public void setIdx(String idx) {
 		this.idx = idx;
 	}
-	
-	
+
+
 	public long getId() {
 		return id;
 	}
@@ -80,11 +80,11 @@ public class Quake {
 	public long getTime() {
 		return time;
 	}
-	
+
 	public void setTime(long time) {
 		this.time = time;
 	}
-	
+
 	public double getMag() {
 		return mag;
 	}
@@ -108,11 +108,11 @@ public class Quake {
 	public void setLng(double lng) {
 		this.lng = lng;
 	}
-	
+
 	@Override
 	public String toString(){
 		SimpleDateFormat df = new SimpleDateFormat("HH:mm");
 		return place + " " + df.format(new Date(time)) + " " + mag;
 	}
-	
+
 }
