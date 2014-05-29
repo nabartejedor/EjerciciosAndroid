@@ -39,67 +39,67 @@ public class MainActivity extends Activity {
    //     SQLiteOpenHelperMain
   //      final DataBaseOperations basedatos = new DataBaseOperations(this);
     //    basedatos.open();
-        
-        
- //     Get the Content Resolver.
-        ContentResolver cr = getContentResolver();
-// 
-//        // Specify the result column projection. Return the minimum set
-//        // of columns required to satisfy your requirements.
-        String[] result_columns = new String[] {
-            
-            MyContentProvider.SQLiteOpenHelperMain.PLACE,
-            MyContentProvider.SQLiteOpenHelperMain.LATITUD,
-            MyContentProvider.SQLiteOpenHelperMain.MAGNITUD,
-            MyContentProvider.SQLiteOpenHelperMain.ID
-            };
-//        
-//        // Append a row ID to the URI to address a specific row.
-//        // ESTO ES PARA EL DETALLE
-//     //   Uri rowAddress =
-//    //    ContentUris.withAppendedId(MyContentProvider.CONTENT_URI,0);
 //        
 //        
-//        // Replace these with valid SQL statements as necessary.
-        String where = null;
-        String whereArgs[] = null;
-        String order = null;
-//        // Return the specified rows.
-        Cursor resultCursor = cr.query(MyContentProvider.CONTENT_URI, result_columns,
-                                       where, whereArgs, order);
-//        
-        Quake q = new Quake();
-//        
-        while(resultCursor.moveToNext()) {
-//        	
-        	Log.d("tag","entro en while cursor" + MyContentProvider.SQLiteOpenHelperMain.ID);
-//
-			int idIdx = resultCursor.getColumnIndex(MyContentProvider.SQLiteOpenHelperMain.ID);
-			int placeIdx = resultCursor.getColumnIndex(MyContentProvider.SQLiteOpenHelperMain.PLACE);
-			int latIdx = resultCursor.getColumnIndex(MyContentProvider.SQLiteOpenHelperMain.LATITUD);
-			int magIdx = resultCursor.getColumnIndex(MyContentProvider.SQLiteOpenHelperMain.MAGNITUD);
-//
-			String place = resultCursor.getString(placeIdx);
-			String id = resultCursor.getString(idIdx);
-			double latitud = resultCursor.getDouble(latIdx);
-			double magnitud = resultCursor.getDouble(magIdx);
-//
-			q.setIdx(id);
-			q.setPlace(place);
-			q.setLat(latitud);
-        	q.setMag(magnitud);
-//        	
-			Log.d("tag","set ID " + q.getIdx());
-			Log.d("tag","set LAT " + q.getLat());
-			Log.d("tag","set PLACE " + q.getPlace());
-			Log.d("tag","set MAGNITUD " + q.getMag());
-//
-			addNewHoard(id,place,latitud,magnitud);
-		} 
-//        
-//        
-//        
-        resultCursor.close();
+// //     Get the Content Resolver.
+//        ContentResolver cr = getContentResolver();
+//// 
+////        // Specify the result column projection. Return the minimum set
+////        // of columns required to satisfy your requirements.
+//        String[] result_columns = new String[] {
+//            
+//            MyContentProvider.SQLiteOpenHelperMain.PLACE,
+//            MyContentProvider.SQLiteOpenHelperMain.LATITUD,
+//            MyContentProvider.SQLiteOpenHelperMain.MAGNITUD,
+//            MyContentProvider.SQLiteOpenHelperMain.ID
+//            };
+////        
+////        // Append a row ID to the URI to address a specific row.
+////        // ESTO ES PARA EL DETALLE
+////     //   Uri rowAddress =
+////    //    ContentUris.withAppendedId(MyContentProvider.CONTENT_URI,0);
+////        
+////        
+////        // Replace these with valid SQL statements as necessary.
+//        String where = null;
+//        String whereArgs[] = null;
+//        String order = null;
+////        // Return the specified rows.
+//        Cursor resultCursor = cr.query(MyContentProvider.CONTENT_URI, result_columns,
+//                                       where, whereArgs, order);
+////        
+//        Quake q = new Quake();
+////        
+//        while(resultCursor.moveToNext()) {
+////        	
+//        	Log.d("tag","entro en while cursor" + MyContentProvider.SQLiteOpenHelperMain.ID);
+////
+//			int idIdx = resultCursor.getColumnIndex(MyContentProvider.SQLiteOpenHelperMain.ID);
+//			int placeIdx = resultCursor.getColumnIndex(MyContentProvider.SQLiteOpenHelperMain.PLACE);
+//			int latIdx = resultCursor.getColumnIndex(MyContentProvider.SQLiteOpenHelperMain.LATITUD);
+//			int magIdx = resultCursor.getColumnIndex(MyContentProvider.SQLiteOpenHelperMain.MAGNITUD);
+////
+//			String place = resultCursor.getString(placeIdx);
+//			String id = resultCursor.getString(idIdx);
+//			double latitud = resultCursor.getDouble(latIdx);
+//			double magnitud = resultCursor.getDouble(magIdx);
+////
+//			q.setIdx(id);
+//			q.setPlace(place);
+//			q.setLat(latitud);
+//        	q.setMag(magnitud);
+////        	
+//			Log.d("tag","set ID " + q.getIdx());
+//			Log.d("tag","set LAT " + q.getLat());
+//			Log.d("tag","set PLACE " + q.getPlace());
+//			Log.d("tag","set MAGNITUD " + q.getMag());
+////
+//			addNewHoard(id,place,latitud,magnitud);
+//		} 
+////        
+////        
+////        
+//        resultCursor.close();
 //        
 //        
 //        

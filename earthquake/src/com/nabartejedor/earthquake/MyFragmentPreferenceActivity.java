@@ -56,7 +56,9 @@ public class MyFragmentPreferenceActivity extends PreferenceActivity {
 		alarmManager.set(alarmType,	timeOrLengthofWait,	alarmIntent);	
 		Log.d("tag","alarma activada");	
 		alarmManager.cancel(alarmIntent);	
-}
+    }
+	
+	
 	
 //	@Override
 //	public boolean onCreateOptionsMenu(Menu menu) {

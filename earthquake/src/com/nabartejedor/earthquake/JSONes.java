@@ -66,37 +66,42 @@ public class JSONes {
 		    JSONArray jArray = jObject.getJSONArray("features"); 
 		
 			Log.d("tag","xxxxxxxxx" + jArray);
-			Quake q = new Quake();
+			
 			long aaa;
+			Log.d("tag","lista antes: " + list);
 			for (int i=0; i < jArray.length(); i++)
 			{
 			    
 			        JSONObject oneObject = jArray.getJSONObject(i);
 			        
-			        JSONObject r = oneObject.getJSONObject("id");
+			      //  JSONObject r = oneObject.getJSONObject("id");
 			        JSONObject p = oneObject.getJSONObject("properties");
 					JSONArray l = oneObject.getJSONObject("geometry").getJSONArray(
 							"coordinates");
 
 					
 				//	q.setId(r.getLong("id"));
-					
+					Quake q = new Quake();
 					aaa =  q.getId();
 					
-					Log.d("tag","zzzzz" + aaa);
 					
+					
+					q.setId(i);
+					q.setIdx(p.getString("ids"));
 					q.setPlace(p.getString("place"));
 					q.setMag(p.getDouble("mag"));
 					q.setTime(p.getLong("time"));
 					q.setUrl(p.getString("url"));
 					q.setLng(l.getDouble(0));
 					q.setLat(l.getDouble(1));
-
-					list.add(q);
-			  
+                    
+					Log.d("tag","quake: " + q);
+					Log.d("tag","indice: " + i);
+					list.add(i,q);
+				    
 			   
 			}
-			
+			Log.d("tag","lista despues" + list);
 		}
 		return list;
 	}

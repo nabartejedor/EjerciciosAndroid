@@ -154,7 +154,7 @@ public class MyContentProvider extends ContentProvider{
 //		SQL	Statement	to	create	a	new	database.	
 		private	static	final	String	DATABASE_CREATE	= "CREATE TABLE IF NOT EXISTS "  + DATABASE_TABLE +
 				"(_id INTEGER PRIMARY KEY AUTOINCREMENT,"+
-				"_idx TEXT  UNIQUE," +
+				"_idx PRIMARY KEY TEXT  UNIQUE," +
 				"_place TEXT," +
 				"_time INT," +
 				"_detail TEXT," +
